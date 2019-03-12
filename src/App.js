@@ -1,25 +1,86 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
+import StarRating from './StarRating';
+import HikeDifficulty from './HikeDifficulty';
+
+//hello
+const HIKE_API_KEY = process.env.REACT_APP_HIKING_PROJECT_API_KEY;
+const LOCATION_API_KEY = process.env.REACT_APP_MAPS_API_KEY;
 
 class App extends Component {
+  constructor () {
+    super();
+
+    this.state = {
+      hikes: [],
+      city: '',
+      state: '',
+      maxDistance: 0,
+      maxResults: 20,
+      sort: 'quality',
+      minLength: 0,
+      minStars: 0
+    }
+  }
+
+  // componentDidMount () {
+  //  this.getCoordinates()
+  // }
+
+  async getCoordinates (city, state) {
+    let formattedCity = city.replace(/\s/g,'+')
+    let res = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${formattedCity},+${state}&key=${LOCATION_API_KEY}`)
+    let coordinates = {latitude: res.data.results[0].geometry.location.lat, longitude: res.data.results[0].geometry.location.lng};
+    return coordinates;
+  }
+
+fetchHikes = async () => { 
+    const {city, state, maxDistance, maxResults, sort, minLength, minStars} = this.state;
+    const {latitude, longitude} = await this.getCoordinates(city, state)
+    let res = await axios.get(`https://www.hikingproject.com/data/get-trails?lat=${latitude}&lon=${longitude}&maxDistance=${maxDistance}&key=${HIKE_API_KEY}&maxResults=${maxResults}&sort=${sort}&minLength=${minLength}&minStars=${minStars}`)
+    this.setState({
+      hikes: res.data.trails
+    })
+  }
+
+  handleChange = (name, event) => {
+    this.setState({
+        [name]: event.target.value,
+    });
+};
+
+handleSubmit = () => {
+this.fetchHikes();
+}
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <h2>Find A Hike</h2>
+      <p>city: <input onChange={e => this.handleChange('city', e)}/></p>
+      <p>state: <input onChange={e => this.handleChange('state', e)}/></p>
+      <p>max distance: <input onChange={e => this.handleChange('maxDistance', e)}/></p>
+      <p>max results: <input onChange={e => this.handleChange('maxResults', e)}/></p>
+      <p>sort by: <input onChange={e => this.handleChange('sort', e)}/></p>
+      <p>min length: <input onChange={e => this.handleChange('minLength', e)}/></p>
+      <p>min stars: <input onChange={e => this.handleChange('minStars', e)}/></p>
+      <button onClick={() => this.handleSubmit()}>Find Hikes</button>
+     {this.state.hikes.length > 0 && <h1>Results</h1>}
+        {this.state.hikes.map(hike => {
+          return (
+            <div key={hike.id}>
+            <h2>{hike.name}</h2>
+            <div>{HikeDifficulty(hike.difficulty)}</div>
+            <div>{StarRating(hike.stars)}</div>
+            <p>{hike.summary}</p>
+            <p>{hike.location}</p>
+            <img src={hike.imgMedium} alt='trail'/>
+            <p>Length: {hike.length} miles</p>
+            <a href={hike.url} target='_blank' rel="noopener noreferrer">Click here for more information</a>
+            </div>
+          )
+        })} 
       </div>
     );
   }
