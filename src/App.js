@@ -51,21 +51,33 @@ fetchHikes = async () => {
 };
 
 handleSubmit = () => {
+  console.log('submitted')
 this.fetchHikes();
 }
 
   render() {
     return (
       <div className="App">
+      <div className='search'>
       <h2>Find A Hike</h2>
-      <p>city: <input onChange={e => this.handleChange('city', e)}/></p>
-      <p>state: <input onChange={e => this.handleChange('state', e)}/></p>
-      <p>max distance: <input onChange={e => this.handleChange('maxDistance', e)}/></p>
-      <p>max results: <input onChange={e => this.handleChange('maxResults', e)}/></p>
-      <p>sort by: <input onChange={e => this.handleChange('sort', e)}/></p>
-      <p>min length: <input onChange={e => this.handleChange('minLength', e)}/></p>
-      <p>min stars: <input onChange={e => this.handleChange('minStars', e)}/></p>
-      <button onClick={() => this.handleSubmit()}>Find Hikes</button>
+      <div className='form'>
+      <label>city: <input onChange={e => this.handleChange('city', e)}/></label>
+      <label>state: <input onChange={e => this.handleChange('state', e)}/></label>
+      <label>max distance: <input onChange={e => this.handleChange('maxDistance', e)}/></label>
+      <label>max results: <input onChange={e => this.handleChange('maxResults', e)}/></label>
+      <label>
+          Sort by:
+          <select value={this.state.sort} onChange={(e) => this.handleChange('sort', e)}>
+            <option value="quality">Quality</option>
+            <option value="distance">Distance</option>
+          </select>
+        </label>
+      <label>min length: <input onChange={e => this.handleChange('minLength', e)}/></label>
+      <label>min stars: <input onChange={e => this.handleChange('minStars', e)}/></label>
+      <button onClick={() => this.handleSubmit()}>Submit</button>
+      </div>
+      </div>
+      <div className='results'>
      {this.state.hikes.length > 0 && <h1>Results</h1>}
         {this.state.hikes.map(hike => {
           return (
@@ -75,12 +87,13 @@ this.fetchHikes();
             <div>{StarRating(hike.stars)}</div>
             <p>{hike.summary}</p>
             <p>{hike.location}</p>
-            <img src={hike.imgMedium} alt='trail'/>
+            <img className='image' src={hike.imgMedium} alt='trail'/>
             <p>Length: {hike.length} miles</p>
             <a href={hike.url} target='_blank' rel="noopener noreferrer">Click here for more information</a>
             </div>
           )
         })} 
+      </div>
       </div>
     );
   }
