@@ -8,7 +8,7 @@ export default function StarRating(rating) {
     return <p>No reviews</p>;
   } else {
     return (
-      <div style={{display: 'flex', justifyContent: 'center'}}>
+      <div style={{display: 'flex', justifyContent: 'flex-start'}}>
         <FontAwesomeIcon
           icon={rating < 0.5 ? regStar : solidStar}
           color='gold'
