@@ -91,11 +91,12 @@ this.fetchHikes();
           return (
             <div key={hike.id} className='result' 
             style={
-            {backgroundImage: "url(" + hike.imgMedium + ")",
-            backgroundColor: '#AAC69C',
-            backgroundRepeat: 'norepeat',
-            backgroundSize: 'cover'}} 
-            onClick={() => this.goToHike()}>
+              {backgroundImage: "url(" + hike.imgMedium + ")",
+              backgroundColor: '#AAC69C',
+              backgroundRepeat: 'norepeat',
+              backgroundSize: 'cover'}} 
+              onClick={() => this.goToHike()}>
+            <p className='hike-length'>{hike.length} mi</p>
             <div className="result-text">
             <p className='hike-name'>{hike.name}</p>
             <div className='ratings'>
@@ -103,8 +104,7 @@ this.fetchHikes();
             <div className='star-rating'>{StarRating(hike.stars)}</div>
             </div>
             <p className='hike-location'>{hike.location}</p>
-            <p className='hike-length'>Length: {hike.length} miles</p>
-            <a className='more-info' href={hike.url} target='_blank' rel="noopener noreferrer">Click here for more information</a>
+            {/* <a className='more-info' href={hike.url} target='_blank' rel="noopener noreferrer">Click here for more information</a> */}
             </div>
             </div>
           )
