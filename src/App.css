@@ -111,3 +111,13 @@ color: white;
   color: #61dafb;
 }
 
+.trail-container {
+  margin: 30px 10%;
+}
+
+.trail-photo-background {
+  background-color: green;
+  height: 60vh;
+  background-size: cover;
+}
+
