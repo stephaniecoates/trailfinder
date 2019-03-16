@@ -26,6 +26,7 @@ export default class GoogleMap extends Component {
   };
 
   render() {
+    console.log(this.props.hikes)
        const center = {
         lat: this.props.hikes.length ? this.props.hikes[0].latitude : 40,
         lng: this.props.hikes.length ? this.props.hikes[0].longitude : -100
@@ -44,7 +45,7 @@ export default class GoogleMap extends Component {
                 key={trail.id}
               lat={trail.latitude}
               lng={trail.longitude}
-              text={"Boulder CO"}
+              text={trail.name}
             />
           );
         })}

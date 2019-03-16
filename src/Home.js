@@ -69,7 +69,6 @@ class Home extends Component {
   };
 
   render() {
-      console.log(this.state.hikes)
     return (
       <div className="App">
         <div className="search">
@@ -148,7 +147,6 @@ class Home extends Component {
                     <div className="star-rating">{StarRating(hike.stars)}</div>
                   </div>
                   <p className="hike-location">{hike.location}</p>
-                  {/* <a className='more-info' href={hike.url} target='_blank' rel="noopener noreferrer">Click here for more information</a> */}
                 </div>
               </div>
             );

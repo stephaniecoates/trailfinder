@@ -28,14 +28,16 @@
 .search-inputs {
   flex: 1;
   overflow: hidden;
-  background: lightgray;
+  background: white;
+  color: black;
+  border: 1px solid darkgray;
 }
 
-.map {
+/* .map {
   flex: 1.3;
   border: 0.5px solid gray;
   background-image: url('https://media.wired.com/photos/59269cd37034dc5f91bec0f1/master/pass/GoogleMapTA.jpg')
-}
+} */
 
 .findhike {
   width: 100%;
